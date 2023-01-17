@@ -1,0 +1,7 @@
+[Scaling Container Technologies at Coinbase with Kubernetes](https://www.coinbase.com/blog/scaling-container-technologies-at-coinbase-with-kubernetes)
+[Scaling Kubernetes to 7,500 Nodes](https://openai.com/blog/scaling-kubernetes-to-7500-nodes/)
+[Scaling productivity on microservices at Lyft](https://eng.lyft.com/scaling-productivity-on-microservices-at-lyft-part-3-extending-our-envoy-mesh-with-staging-fdaafafca82f)
+[Improving Kubernetes CronJobs at Lyft](https://eng.lyft.com/how-we-learned-to-improve-kubernetes-cronjobs-at-scale-part-2-of-2-dad0c973ffca)
+[Envoy: 7 months later](https://eng.lyft.com/envoy-7-months-later-41986c2fd443)
+[Building a Kubernetes platform at Pinterest](https://medium.com/pinterest-engineering/building-a-kubernetes-platform-at-pinterest-fb3d9571c948)
+[Scaling Kubernetes with Assurance at Pinterest](https://medium.com/pinterest-engineering/scaling-kubernetes-with-assurance-at-pinterest-a23f821168da)
