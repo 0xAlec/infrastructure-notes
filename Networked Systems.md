@@ -1,17 +1,17 @@
 
 ## Service Mesh
 
-*Data plane* - userspace proxies, intercepts calls between services 
+- *Data plane* - userspace proxies, intercepts calls between services 
 
-*Userspace* - area of memory/storage, can be auth, session, browsing, etc.
+- *Userspace* - area of memory/storage, can be auth, session, browsing, etc.
 
-*Control plane* - set of management processes, controls behavior of proxies and provides APIs for operators to manipulate and maintain the mesh
+- *Control plane* - set of management processes, controls behavior of proxies and provides APIs for operators to manipulate and maintain the mesh
 
-*Envoy* - high-performance, open-source proxy for microservice architecture. L7 proxy means it operates on OSI model's application layer and makes routing decision based on content of HTTP/gRPC requests. provides features like load balancing, service discovery, and traffic management.
+- *Envoy* - high-performance, open-source proxy for microservice architecture. L7 proxy means it operates on OSI model's application layer and makes routing decision based on content of HTTP/gRPC requests. provides features like load balancing, service discovery, and traffic management.
 
-*Target Groups* - listeners receive requests and decide which target group to forward the request. requests are then routed to instances, containers, or IP addresses. also performs health checks on targets. Used in load balancers. 
+- *Target Groups* - listeners receive requests and decide which target group to forward the request. requests are then routed to instances, containers, or IP addresses. also performs health checks on targets. Used in load balancers. 
 
-*API Gateway* - create, update, and publish APIs. compatible with REST architecture/HTTP. in contrast to ALBs which are typically used for gRPC requests. 
+- *API Gateway* - create, update, and publish APIs. compatible with REST architecture/HTTP. in contrast to ALBs which are typically used for gRPC requests. 
 
 The key difference a service mesh provides vs an API gateway or ingress proxy is that it manages requests and calls between microservices, compared to calls from the outside world into the cluster itself. 
 
@@ -25,13 +25,13 @@ gRPC uses binary encoding, this is not natively supported by HTTP protocols. gRP
 
 Depending on the mesh implementation, one proxy is added per node/host/VM. As a result, data plane proxies must be **fast** and **light** since we're adding 2 proxy hops to every call (one on server-side, one on client-side). These proxies will also consume resources (CPU/memory) in each pod, scaling linearly. Container orchestration is also necessary here to aggregate deployments and updates to the proxies.
 
-If this is the case, why add a mesh? Well, these meshes provide application-layer features like reliability (retries, timeouts, canaries), obervability (aggregation, metrics, latencies, request volumes, network topology), and security (mutual TLS, access management). 
+Why add a service mesh? Well, it provides application-layer features like reliability (retries, timeouts, canaries), obervability (aggregation, metrics, latencies, request volumes, network topology), and security (mutual TLS, access management). 
 
 Service meshes can provide a centralized and consistent way to manage these features across multiple instances, regardless of language, framework, or deployment platform. **Uniform across the stack and decoupled from application code**
 
-It's also possible to combine service mesh with gRPC interceptors to provide features like authentication, authorization, metrics/tracing. Internal metrics must be provided by application instrumentation like interceptors.
+It's also possible to combine service mesh with gRPC interceptors to provide features like authentication, authorization, metrics/tracing. While service meshes are typically implemented as a sidecar proxy for each service instance, interceptors are typically implemented as part of the service code and can add functionality to specific, individual service instances. 
 
-While service meshes are typically implemented as a sidecar proxy for each service instance, interceptors are typically implemented as part of the service code and can add functionality to specific, individual service instances. 
+**While service meshes can provide metrics like traffic + % of failed requests, internal metrics must be provided by application instrumentation specific to the individual service (e.g. interceptors).**
 
 
 ## OSI model
@@ -48,13 +48,15 @@ While service meshes are typically implemented as a sidecar proxy for each servi
 
 *UDP* - User Datagram Protocol, does not establish a connection and sends packets of data without checking if they are successfully received or not. Suitable for low-latency applications like video gaming or streaming.
 
-## Types of Proxies
+## Types of Proxies + Traffic
 
 - *Reverse proxy* - directs incoming requests to appropriate servers. reverse proxies can be used for load balancing, security, caching, SSL, URL rewriting, compression, and service discovery.
 - *Forward proxy* - sits on a client's network and directs outgoing traffic to appropriate server. useful for enforcing security policies
 - *Ingress proxy* - typically used in Kubernetes (and implemented as a pod), ingress proxies routes traffic to servers in k8s clusters based on the incoming request's URL or hostname. used to expose multiple services through a single IP or hostname, and provide a single entry point for external traffic into a cluster
 
-North-south (*ingress/egress*) is terminology used to describe inbound requests (to a cluster), while east-west (*service to service*) is used to describe intracluster communication. Ingress proxies like KIC (*Kubernetes Ingress Controller*) is typically used to proxy request into and out of k8s clusters, while service meshes facilitate traffic between k8s services. 
+North-south (*ingress/egress*) is terminology used to describe inbound requests (to a cluster), while east-west (*service to service*) is used to describe intracluster communication. Ingress proxies like KIC (*Kubernetes Ingress Controller*) is typically used to proxy request into and out of k8s clusters, while service meshes facilitate traffic between k8s services.
+
+When should we use a reverse proxy vs an ingress proxy? Reverse proxies are general purpose while ingress proxies are specialized for Kubernetes clusters (and you can define routing rules inside the ingress resource). 
 
 ## Traffic Control
 
@@ -76,8 +78,8 @@ Multiple load balancers can provide high availability, scalability, and geograph
 
 ### **Application Load Balancer vs Network Load Balancer**
 
-- ALB - L7, can route requests based on geographical location of the client. path-based routing, host-based routing, redirects, etc. best suited for HTTP/HTTPS traffic
-- NLB - L4, Route53 latency-based routing to route traffic to optimal NLB endpoint based on IP protocol data. best suited for routing TCP/UDP
+- ALB - L7, can route requests based on geographical location of the client. path-based routing, host-based routing, redirects, etc. **best suited for HTTP/HTTPS traffic**
+- NLB - L4, Route53 latency-based routing to route traffic to optimal NLB endpoint based on IP protocol data. **best suited for routing TCP/UDP**
 
 Load balancing at different network layers is optimized for different workloads:
 
