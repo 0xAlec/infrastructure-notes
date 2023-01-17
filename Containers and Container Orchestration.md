@@ -38,7 +38,7 @@ It can:
 
 *Deployments*, a Kubernetes abstraction, allow you to specify the desired number of Pod replicas. Kubernetes is declarative by nature; users specify the desired end state and Kubernetes figures out the implementation details. In the example of scaling, the desired end state is defined in a manifest/resource, and pod distribution happens automatically across cluster nodes.
 
-![[Pasted image 20230116194332.png]]
+![Kubernetes deployments](https://iximiuz.com/kubernetes-vs-virtual-machines/deployment-2000-opt.png)
 *Kubernetes deployments*
 
 *ReplicaSet*
@@ -57,7 +57,7 @@ Solution: service discovery. common solutions include a load balancer/reverse pr
 
 **Load balancers = single point of failure, potential throughput bottleneck + extra network hop on request path**
 
-![[Pasted image 20230116195312.png]]
+![k8s server side discovery](https://iximiuz.com/service-discovery-in-kubernetes/server-side-service-discovery-4000-opt.png)
 *Server-side Service discovery*
 
 Client-side and [round robin DNS](https://en.wikipedia.org/wiki/Round-robin_DNS) can also be used as an alternative (not studying this further as it doesn't seem to be industry standard)
@@ -88,7 +88,7 @@ REDIS_PRIMARY_PORT_6379_TCP_PORT=6379
 REDIS_PRIMARY_PORT_6379_TCP_ADDR=10.0.0.11
 ```
 
-![[Pasted image 20230116200624.png]]
+![DNS discovery in k8s](https://iximiuz.com/service-discovery-in-kubernetes/kube-logical-service-discovery-4000-opt.png)
 *This results in an architecture very similar to a load balancer/reverse proxy in front of the service.*
 
 Managed offerings like Amazon EKS (Elastic Kubernetes Service) allow automatic provisioning, scaling, and maintaining the control plane and worker nodes to meet application demand.
@@ -98,7 +98,7 @@ In Amazon EKS, the service discovery is implemented using the Kubernetes DNS, wh
 ### Blue/green and canary deployments in Kubernetes
 
 
-![[Pasted image 20230116194213.png]]
+![k8s service](https://iximiuz.com/kubernetes-vs-virtual-machines/canary-2000-opt.png)
 *Blue/green and canary deployments in Kubernetes*
 
 *Argo rollouts*

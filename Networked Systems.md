@@ -20,7 +20,7 @@ Control plane provides TLS certificate issuance, metrics aggregation, etc. Contr
 gRPC uses binary encoding, this is not natively supported by HTTP protocols. gRPC also allows for bi-directional streaming, flow control, and cancellation, which is not possible with REST.
 
 
-![[Pasted image 20230116164444.png]]
+![linkerd](https://uploads-ssl.webflow.com/625ee9b2f6a4ec3997f9c11b/62a0d30e9625786b6d7c45d1_control-plane.png)
 *An example of Linkerd's control + data plane. Each box is a Kubernetes pod, and the proxies run as a sidecar container in the pod.*
 
 Depending on the mesh implementation, one proxy is added per node/host/VM. As a result, data plane proxies must be **fast** and **light** since we're adding 2 proxy hops to every call (one on server-side, one on client-side). These proxies will also consume resources (CPU/memory) in each pod, scaling linearly. Container orchestration is also necessary here to aggregate deployments and updates to the proxies.
