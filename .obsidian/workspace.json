@@ -11,8 +11,12 @@
             "id": "c9afd597e30de39b",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Kubernetes Cheatsheet.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Kubernetes Cheatsheet.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Kubernetes Cheatsheet.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Kubernetes Cheatsheet.md"
+              }
             }
           }
         ]
@@ -138,11 +146,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2d42918f28e475e2",
+  "active": "c9afd597e30de39b",
   "lastOpenFiles": [
+    "Pasted image 20230116164444.png",
     "Networked Systems.md",
     "Containers and Container Orchestration.md",
-    "Engineering Blogs.md",
-    "Pasted image 20230116164444.png"
+    "Engineering Blogs.md"
   ]
 }
