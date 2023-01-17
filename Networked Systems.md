@@ -21,7 +21,7 @@ gRPC uses binary encoding, this is not natively supported by HTTP protocols. gRP
 
 
 ![[Pasted image 20230116164444.png]]
-*An example of LinkedIn's control + data plane. Each box is a Kubernetes pod, and the proxies run as a sidecar container in the pod.*
+*An example of Linkerd's control + data plane. Each box is a Kubernetes pod, and the proxies run as a sidecar container in the pod.*
 
 Depending on the mesh implementation, one proxy is added per node/host/VM. As a result, data plane proxies must be **fast** and **light** since we're adding 2 proxy hops to every call (one on server-side, one on client-side). These proxies will also consume resources (CPU/memory) in each pod, scaling linearly. Container orchestration is also necessary here to aggregate deployments and updates to the proxies.
 
@@ -46,7 +46,7 @@ While service meshes are typically implemented as a sidecar proxy for each servi
 
 *TCP* - Transmission Control Protocol, connection-oriented and establishes a reliable connection between devices before sending data. Ensures packets are sent in the correct order and lost packets are retransmitted. Use for applications that require high-level of reliability, such as file transfers and web browsing.
 
-*UDP* - User Datagram Protocol, does not establish a connection and sends pockets of data without checking if they are successfully received or not. Suitable for low-latency applications like video gaming or streaming.
+*UDP* - User Datagram Protocol, does not establish a connection and sends packets of data without checking if they are successfully received or not. Suitable for low-latency applications like video gaming or streaming.
 
 ## Types of Proxies
 
