@@ -9,9 +9,16 @@
 
 *Envoy* - high-performance, open-source proxy for microservice architecture. L7 proxy means it operates on OSI model's application layer and makes routing decision based on content of HTTP/gRPC requests. provides features like load balancing, service discovery, and traffic management.
 
+*Target Groups* - listeners receive requests and decide which target group to forward the request. requests are then routed to instances, containers, or IP addresses. also performs health checks on targets. Used in load balancers. 
+
+*API Gateway* - create, update, and publish APIs. compatible with REST architecture/HTTP. in contrast to ALBs which are typically used for gRPC requests. 
+
 The key difference a service mesh provides vs an API gateway or ingress proxy is that it manages requests and calls between microservices, compared to calls from the outside world into the cluster itself. 
 
 Control plane provides TLS certificate issuance, metrics aggregation, etc. Control planes expose an API for users to modify and inspect the behavior of the data plane. An example of this is `kubectl` . 
+
+gRPC uses binary encoding, this is not natively supported by HTTP protocols. gRPC also allows for bi-directional streaming, flow control, and cancellation, which is not possible with REST.
+
 
 ![[Pasted image 20230116164444.png]]
 *An example of LinkedIn's control + data plane. Each box is a Kubernetes pod, and the proxies run as a sidecar container in the pod.*
@@ -27,8 +34,8 @@ It's also possible to combine service mesh with gRPC interceptors to provide fea
 While service meshes are typically implemented as a sidecar proxy for each service instance, interceptors are typically implemented as part of the service code and can add functionality to specific, individual service instances. 
 
 
-
 ## OSI model
+
 1. Physical Layer - raw bits of data
 2. Data Link Layer - creates reliable link between two devices on a network
 3. Network Layer - routing packets of data
@@ -41,24 +48,39 @@ While service meshes are typically implemented as a sidecar proxy for each servi
 
 *UDP* - User Datagram Protocol, does not establish a connection and sends pockets of data without checking if they are successfully received or not. Suitable for low-latency applications like video gaming or streaming.
 
-*Reverse proxy* - directs incoming requests to appropriate servers. reverse proxies can be used for load balancing, security, caching, SSL, URL rewriting, compression, and service discovery.
+## Types of Proxies
 
-Can provide load balancing at the application layer (load balancing requests to a load balancer) through reverse proxies like Envoy. 
+- *Reverse proxy* - directs incoming requests to appropriate servers. reverse proxies can be used for load balancing, security, caching, SSL, URL rewriting, compression, and service discovery.
+- *Forward proxy* - sits on a client's network and directs outgoing traffic to appropriate server. useful for enforcing security policies
+- *Ingress proxy* - typically used in Kubernetes (and implemented as a pod), ingress proxies routes traffic to servers in k8s clusters based on the incoming request's URL or hostname. used to expose multiple services through a single IP or hostname, and provide a single entry point for external traffic into a cluster
+
+North-south (*ingress/egress*) is terminology used to describe inbound requests (to a cluster), while east-west (*service to service*) is used to describe intracluster communication. Ingress proxies like KIC (*Kubernetes Ingress Controller*) is typically used to proxy request into and out of k8s clusters, while service meshes facilitate traffic between k8s services. 
+
+## Traffic Control
+
+- Rate limiting - restricts # of requests by a given user in a time period
+- Circuit breaker - prevent cascading failures by monitoring for service failures. e.g. when # of requests fail past a set threshold, return an immediate error response to clients as soon as the requests arrive, throttling traffic that would otherwise result in high latency and delayed timeouts which may cause an overall failure of the application
+
+## Traffic Splitting
+
+- *Debug routing* - deploy but allow access via session cookie, ID, etc. 
+- *Canary deployment* - test stability of a new deployment, move a test group to the new version - if crashes or errors happen, return clients to the stable version. if successful, can start a gradual and controlled migration
+- *A/B testing* - 50/50, choose based on KPIs
+- *Blue green deployment* - downtime for upgrades is unacceptable. keep old version (blue) in production while deploy the new version (green) into the same production environment. use a canary deployment to incrementally move users. useful for zero downtime deployments + easy rollbacks.
+
+## Load Balancing
+
+Can provide load balancing at the application layer (load balancing requests to a load balancer) through reverse proxies like Envoy or ELB/ALB. 
 
 Multiple load balancers can provide high availability, scalability, and geographic distribution (I believe AWS ELB/ALB is already configured for multi-region). However, this increases architecture complexity.
 
-ALB - L7, can route requests based on geographical location of the client. path-based routing, host-based routing, redirects, etc. best suited for HTTP/HTTPS traffic
-NLB - L4, Route53 latency-based routing to route traffic to optimal NLB endpoint based on IP protocol data. best suited for routing TCP/UDP
+### **Application Load Balancer vs Network Load Balancer**
+
+- ALB - L7, can route requests based on geographical location of the client. path-based routing, host-based routing, redirects, etc. best suited for HTTP/HTTPS traffic
+- NLB - L4, Route53 latency-based routing to route traffic to optimal NLB endpoint based on IP protocol data. best suited for routing TCP/UDP
 
 Load balancing at different network layers is optimized for different workloads:
 
 - L7 - based on content of request (session, content, type) - useful for when you want to route requests based on application logic
 - L4 - IP address and transport protocol (client IP, server IP, port #) - useful for when you want to route requests based on network topology or high-throughput low-latency workloads
-
-*Target Groups* - listeners receive requests and decide which target group to forward the request. requests are then routed to instances, containers, or IP addresses. also performs health checks on targets
-
-*API Gateway* - create, update, and publish APIs. compatible with REST architecture/HTTP. in contrast to ALBs which are typically used for gRPC requests. 
-
-gRPC uses binary encoding, this is not natively supported by HTTP protocols. gRPC also allows for bi-directional streaming, flow control, and cancellation, which is not possible with REST.
-
 
