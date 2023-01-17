@@ -41,6 +41,14 @@ It can:
 ![Kubernetes deployments](https://iximiuz.com/kubernetes-vs-virtual-machines/deployment-2000-opt.png)
 *Kubernetes deployments*
 
+### Patterns
+
+*Objects*
+- Represents state of cluster
+- Which applications are running? How many resources are available? Policies such as restart/upgrade/fault-tolerance
+- `spec` to describe desired state
+- `status` to describe current state
+
 *ReplicaSet*
 - A Kubernetes **resource**
 - Ensures a specified number of pod replicas are running at all times
@@ -48,6 +56,31 @@ It can:
 - If a pod dies or becomes unavailable, the ReplicaSet will create a new pod to replace it
 - If the number of running pods exceeds the desired number, the ReplicaSet will delete the extra pods.
 - Self-healing, monitors health of pods and restarts/replaces unresponsive ones
+
+*StatefulSet*
+- Manages stateful applications
+- Provides guarentees about the ordering and uniqueness of these pods
+- Usage:
+	- Stable persistant storage
+	- Ordered and graceful deployment and scaling
+	- Ordered automatic rolling updates
+
+*Controller*
+- Tracks Kubernetes resource types
+- `spec` field to describe desired state
+- Kubernetes Job
+	- Creates pods to completion
+- Autoscaling pods in clusters (Horizontal, Vertical)
+
+*Operator*
+- Kubernetes API Client - acts as a controller for a Custom Resource
+- Usage:
+	- deploying applications on demand
+	- restoring application state from a backup
+	- handling upgrades of application code (database schemas, configuration)
+	- chaos engineering
+	- choosing a leader for a distributed system without an internal election process
+- We used operators at Coinbase from open source tooling to automate database and schema migrations.
 
 ### Service Discovery Problem
 
