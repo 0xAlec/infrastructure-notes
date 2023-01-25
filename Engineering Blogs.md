@@ -5,3 +5,4 @@
 - [Envoy: 7 months later](https://eng.lyft.com/envoy-7-months-later-41986c2fd443)
 - [Building a Kubernetes platform at Pinterest](https://medium.com/pinterest-engineering/building-a-kubernetes-platform-at-pinterest-fb3d9571c948)
 - [Scaling Kubernetes with Assurance at Pinterest](https://medium.com/pinterest-engineering/scaling-kubernetes-with-assurance-at-pinterest-a23f821168da)
+- [Scalable Kubernetes Upgrade Using Operators](https://www.databricks.com/blog/2022/12/15/scalable-kubernetes-upgrade-using-operators.html)
