@@ -6,3 +6,4 @@
 - [Building a Kubernetes platform at Pinterest](https://medium.com/pinterest-engineering/building-a-kubernetes-platform-at-pinterest-fb3d9571c948)
 - [Scaling Kubernetes with Assurance at Pinterest](https://medium.com/pinterest-engineering/scaling-kubernetes-with-assurance-at-pinterest-a23f821168da)
 - [Scalable Kubernetes Upgrade Using Operators](https://www.databricks.com/blog/2022/12/15/scalable-kubernetes-upgrade-using-operators.html)
+- [Enterprise Restaurant Compute](https://medium.com/chick-fil-atech/enterprise-restaurant-compute-f5e2fd63d20f)
